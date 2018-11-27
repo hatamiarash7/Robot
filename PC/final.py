@@ -14,18 +14,20 @@ PURPLE = (255, 0, 255)
 CYAN = (0, 255, 255)
 
 #config tcp connection
-HOST = '169.254.243.180' #set ip address
+HOST = '169.254.100.1' #set ip address
 PORT = 80 #set port number ( default 80)
 Address = (HOST, PORT)
 UDPSocket = socket(AF_INET, SOCK_DGRAM)
 
 speed = 0
 
+font_name = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+
 class TextPrint:
     def __init__(self):
         self.reset()
         #set screen font
-        self.font = pygame.font.Font('/usr/share/fonts/truetype/droid/DroidSans.ttf', 20, bold = True)
+        self.font = pygame.font.Font(font_name, 20, bold = True)
 
     def print_info(self, screen, textString, color, flag):
         textBitmap = self.font.render(textString, True, color)
@@ -54,7 +56,7 @@ def lines():
     pygame.draw.lines(screen, WHITE, True, [(1316, 0), (1316, 768)], 1)
 
 pygame.init() #init pygame module
-size = [1366, 768] #screen size ( default for laptop )
+size = [1920, 1080] #screen size ( default for laptop )
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 pygame.display.set_caption("Network Command Sender") #set software title
 done = False #Loop until the user clicks the close button.
@@ -141,7 +143,7 @@ while done == False:
             speed = 2
         elif target <= 750:
             speed = 1
-        screen.blit(pygame.font.Font('/usr/share/fonts/truetype/droid/DroidSans.ttf', 25, bold = True).render(str(speed), True, WHITE), [1332, 14])
+        screen.blit(pygame.font.Font(font_name, 25, bold = True).render(str(speed), True, WHITE), [1332, 14])
         '''
         command's configuration as like as follow :
             --- Robot-Part : Speed
@@ -184,19 +186,19 @@ while done == False:
             UDPSocket.sendto(Message, Address)
         if joystick.get_button(8) == 1:
             textPrint.print_info(screen, "Situation : Alert Off", WHITE, 1)			
-            Message = "LEDOn:0"
+            Message = "R1:0"
             UDPSocket.sendto(Message, Address)
         if joystick.get_button(9) == 1:
             textPrint.print_info(screen, "Situation : Alert On", WHITE, 1)			
-            Message = "LEDOff:0"
+            Message = "R2:0"
             UDPSocket.sendto(Message, Address)
         if joystick.get_button(10) == 1:
             textPrint.print_info(screen, "Situation : Stop", WHITE, 1)			
-            Message = "RelayOn:0"
+            Message = "R3:0"
             UDPSocket.sendto(Message, Address)
         if joystick.get_button(11) == 1:
             textPrint.print_info(screen, "Situation : Start", WHITE, 1)
-            Message = "RelayOff:0"
+            Message = "R4:0"
             UDPSocket.sendto(Message, Address)
         if joystick.get_axis(1) * 1000 < -700:
             if speed==1: f=25
